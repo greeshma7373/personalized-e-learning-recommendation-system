@@ -99,7 +99,11 @@ Register
 
 
 </div>
-
+{% if message == "already_exists" %}
+<div class="alert alert-warning text-center">
+    ⚠️ Email already registered. Please login.
+</div>
+{% endif %}
 </body>
 
 </html>
