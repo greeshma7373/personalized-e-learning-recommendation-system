@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>User Dashboard</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#f5f7fb;
+}
+
+.dashboard-title{
+font-weight:600;
+margin-bottom:30px;
+}
+
+.course-card{
+border-radius:12px;
+transition:0.3s;
+}
+
+.course-card:hover{
+transform:scale(1.02);
+}
+
+.progress{
+height:20px;
+border-radius:10px;
+}
+
+.badge-complete{
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<div class="container">
+
+<a class="navbar-brand">Personalized E-Learning Dashboard</a>
+
+<div>
+
+<a href="/courses" class="btn btn-light me-2">Courses</a>
+
+
+
+<a href="/analytics" class="btn btn-info me-2">Analytics</a>
+
+<a href="/logout" class="btn btn-danger">Logout</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- DASHBOARD CONTENT -->
+
+<div class="container mt-4">
+
+<h2 class="text-center dashboard-title">
+
+📊 Your Learning Progress
+
+</h2>
+
+
+{% if progress|length == 0 %}
+
+<div class="text-center mt-5">
+
+<h5>You haven't started any courses yet</h5>
+
+
+<a href="/courses" class="btn btn-primary mt-3">
+
+Browse Courses
+
+</a>
+
+</div>
+
+{% endif %}
+
+
+<div class="row">
+
+{% for p in progress %}
+
+<div class="col-md-6">
+
+<div class="card course-card shadow p-4 mb-4">
+
+
+<h5>
+
+{{course_dict[p.course_id]}}
+
+</h5>
+
+
+<div class="progress mt-3">
+
+<div
+class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+role="progressbar"
+style="width: {{p.progress}}%;"
+>
+
+{{p.progress}}%
+
+</div>
+
+</div>
+
+
+{% if p.progress == 100 %}
+
+<div class="mt-3 d-flex justify-content-between">
+
+<span class="badge bg-success badge-complete">
+
+✔ Course Completed
+
+</span>
+
+<a
+href="/certificate/{{p.course_id}}"
+class="btn btn-success btn-sm"
+>
+
+🎓 Download Certificate
+
+</a>
+
+</div>
+
+{% else %}
+
+<div class="mt-2 text-muted">
+
+Keep learning to complete this course 🚀
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+<h3>Your Rated Courses</h3>
+
+{% if rated_courses %}
+    <ul>
+        {% for r in rated_courses %}
+            <li>
+                {{ r.title }} → ⭐ {{ r.rating }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No ratings yet</p>
+{% endif %}
+
+</div>
+
+</body>
+
+</html>
