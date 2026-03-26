@@ -75,8 +75,9 @@ def register():
             ).fetchone()
 
             if existing:
-                flash("Email already registered. Please login.")
-                return redirect('/login')
+                return redirect(url_for('login', message="already_exists"))
+                message = request.args.get('message')
+                return render_template('register.html',message=message)
 
             result = conn.execute(text("""
                 INSERT INTO users (name, email, password)
